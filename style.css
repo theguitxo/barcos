@@ -1,7 +1,12 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
 #container {
   display: flex;
   flex-wrap: wrap;
-  width: 25rem;
+  width: 100%;
 }
 
 #container div {
@@ -11,7 +16,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.wrapper > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wrapper button {
+  background-color: greenyellow;
+  border: solid 2px green;
+  border-radius: .5rem;
+  padding: .5rem 1rem;
+  cursor: pointer;
+}
+
+#resumen > div {
+  margin-bottom: .5rem;
+}
+
+@media only screen and (min-width: 576px) {
+  .wrapper {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .wrapper > * {
+    width: 50%;
+  }
+
+  #container div {
+    font-size: 2rem;
+  }
+
+  #container {
+    width: 25rem;
+  }
 }

@@ -33,82 +33,98 @@ const COLUMNAS = 10;
 const BARCOS = [
   {
     tipo: TIPO_CASILLLA.PORTA_AVIONES,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.PORTA_AVIONES,
     nombre: NOMBRES.PORTA_AVIONES
   },
   {
     tipo: TIPO_CASILLLA.BUQUE,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.BUQUE,
     nombre: NOMBRES.BUQUE
   },
   {
     tipo: TIPO_CASILLLA.SUBMARINO,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.SUBMARINO,
     nombre: NOMBRES.SUBMARINO
   },
   {
     tipo: TIPO_CASILLLA.CRUCERO,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.CRUCERO,
     nombre: NOMBRES.CRUCERO
   },
   {
     tipo: TIPO_CASILLLA.CRUCERO,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.CRUCERO,
     nombre: NOMBRES.CRUCERO
   },  
   {
     tipo: TIPO_CASILLLA.LANCHA,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.LANCHA,
     nombre: NOMBRES.LANCHA
   },
   {
     tipo: TIPO_CASILLLA.LANCHA,
-    orientacion: Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL,
+    orientacion: null,
     intentos: 0,
     tamanyo: TAMANYOS.LANCHA,
     nombre: NOMBRES.LANCHA
   }
-]
+];
 
-let tablero = new Array(POSICIONES).fill(TIPO_CASILLLA.AGUA);
+let tablero;
 
-let barcosOrdenados = BARCOS.sort((a, b) => {
-  return a.tamanyo < b.tamanyo ? 1 : -1;
+document.addEventListener("DOMContentLoaded", (event) => {
+  ordenaBarcos();
 });
 
-barcosOrdenados.forEach(barco => {
-  situaBarco(barco);
-});
+function recargar() {
+  Array.from(document.getElementById('container').childNodes).forEach(a => a.remove());
+  Array.from(document.getElementById('resumen').childNodes).forEach(a => a.remove());
+  ordenaBarcos();
+}
 
-const elements = tablero.map(item => {
-  const el = document.createElement('div');
-  el.style.border = 'solid 1px #000';
-  el.style.backgroundColor = (item === TIPO_CASILLLA.AGUA || item === TIPO_CASILLLA.MARGEN) ? 'cyan' : 'red';
-  el.innerHTML = item !== TIPO_CASILLLA.AGUA && item !== TIPO_CASILLLA.MARGEN ? item : '';
-  return el;
-});
+function ordenaBarcos() {
+  BARCOS.forEach(barco => barco.orientacion = Math.floor(Math.random() * 100) > 49 ? HORIZONTAL : VERTICAL);
 
-const container = document.getElementById('container');
-elements.forEach(el => container.appendChild(el));
+  tablero = new Array(POSICIONES).fill(TIPO_CASILLLA.AGUA);
 
-const resumen = document.getElementById('resumen');
-BARCOS.forEach(barco => {
-  const el = document.createElement('div');
-  el.innerHTML = `Objeto de tipo ${barco.nombre} situado en ${barco.intentos} intentos`;
-  resumen.appendChild(el);
-});
+  let barcosOrdenados = BARCOS.toSorted((a, b) => {
+    return a.tamanyo < b.tamanyo ? 1 : -1;
+  });
+
+  barcosOrdenados.forEach(barco => {
+    situaBarco(barco);
+  });
+
+  const elements = tablero.map(item => {
+    const el = document.createElement('div');
+    el.style.border = 'solid 1px #000';
+    el.style.backgroundColor = (item === TIPO_CASILLLA.AGUA || item === TIPO_CASILLLA.MARGEN) ? 'cyan' : 'red';
+    el.innerHTML = item !== TIPO_CASILLLA.AGUA && item !== TIPO_CASILLLA.MARGEN ? item : '';
+    return el;
+  });
+
+  const container = document.getElementById('container');
+  elements.forEach(el => container.appendChild(el));
+
+  const resumen = document.getElementById('resumen');
+  BARCOS.forEach(barco => {
+    const el = document.createElement('div');
+    el.innerHTML = `Objeto de tipo ${barco.nombre} situado en ${barco.intentos} intentos`;
+    resumen.appendChild(el);
+  });
+}
 
 function situaBarco(barco) {
   const libres = posicionesLibres();
