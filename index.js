@@ -104,6 +104,7 @@ function ordenaBarcos() {
   });
 
   barcosOrdenados.forEach(barco => {
+    barco.intentos = 0;
     situaBarco(barco);
   });
 
@@ -121,14 +122,14 @@ function ordenaBarcos() {
   const resumen = document.getElementById('resumen');
   BARCOS.forEach(barco => {
     const el = document.createElement('div');
-    el.innerHTML = `Objeto de tipo ${barco.nombre} situado en ${barco.intentos} intentos`;
+    el.innerHTML = `Objeto de tipo ${barco.nombre} (${barco.tipo}) situado en ${barco.intentos} intentos`;
     resumen.appendChild(el);
   });
 }
 
 function situaBarco(barco) {
   const libres = posicionesLibres();
-  let posInfo = { pos: [], situado: false };
+  let posInfo;
   do {
     const pos = libres[Math.floor(Math.random() * libres.length)];
     posInfo = barco.orientacion === HORIZONTAL ? compruebaHorizontal(barco, pos) : compruebaVertical(barco, pos);
