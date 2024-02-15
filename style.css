@@ -32,6 +32,12 @@ body {
   box-sizing: border-box;
 }
 
+.container__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .wrapper button {
   background-color: greenyellow;
   border: solid 2px green;
